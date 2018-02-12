@@ -33,7 +33,7 @@ end
 step do
   message 'The first word you type in the terminal is always the name of a program.
              Many programs are included in OS X and Windows, like `ls` and `pwd`.  Others
-             are programs you installed, like `ruby`, `irb`, or `vagrant`.'
+             are programs you installed, like `ruby`, `irb`, or `docker`.'
   console 'ls'
   message 'Hit **RETURN** or **ENTER** to run the command.'
   message '`ls` stands for **list**, and lists the contents of the current directory.'
@@ -158,6 +158,10 @@ end
 
 tip do
   message "If your workshop is using a Virtual Machine (ask a TA!) now is the time to take a detour to [Using Virtual Machines](using_virtual_machines)"
+end
+
+tip do
+  message "If your workshop is using Docker (ask a TA!) now is the time to take a detour to [Using Docker](using_docker)"
 end
 
 next_step 'irb'

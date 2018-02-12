@@ -20,6 +20,7 @@ goals do
   goal "Use a text editor."
   goal "Write and save a Ruby program into a file"
   goal "Start and connect to the RailsBridge virtual machine, if you are using it for the workshop"
+  goal "Start and connect to the RailsBridge Docker playground, if you are using it for the workshop"
   goal "Run Ruby code saved in a file"
 end
 
