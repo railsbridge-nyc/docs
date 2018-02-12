@@ -13,6 +13,12 @@ steps do
 
     console_without_message "irb"
 
+    important do
+      message "If you're using Docker at your workshop, you should instead run:"
+
+      console_without_message "docker run -it ruby irb"
+    end
+
     message "Yours might look different, but it should look something like this:"
 
     console_without_message "irb(main):001:0>"
