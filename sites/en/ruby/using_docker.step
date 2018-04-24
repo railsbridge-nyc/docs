@@ -1,0 +1,66 @@
+message <<-INTRO
+Some workshops ask students to use Docker. To run Ruby, you need to run a Docker
+container.
+INTRO
+
+tip do
+  message "If students aren't using Docker at your workshop, head back to <a href='command_line'>the curriculum.</a>"
+end
+
+goals do
+  goal "Define Docker and Docker Compose"
+  goal "Define image and container"
+  goal "Find your workspace directory"
+  goal "Run a container that has Ruby installed"
+end
+
+message <<-CONTENTS
+Most laptops don't come with Ruby installed. Getting 75+ people ready at a
+workshop is a big logistical challenge.
+
+To get going quickly and to have things work the same for everyone, we're using
+Docker and Docker Compose. Using these adds some extra steps, which we'll
+practice here.
+CONTENTS
+
+
+step do
+  message "First, let's define \"Docker.\""
+  message "Docker is a tool for running software. TKTK"
+end
+
+step do
+  message <<-CONTENTS
+To run Ruby with Docker, we're going to need to create a file called
+`docker-compose.yml` with these contents:
+CONTENTS
+
+
+source_code :text, <<-CONTENTS
+version: '3'
+services:
+  playground:
+    image: 'ruby:2.5.0-slim'
+    working_dir: '/app'
+    command: 'bash'
+    volumes:
+      - '.:/app'
+CONTENTS
+end
+
+step do
+message "Now, we can run a \"container\" which has Ruby installed:"
+
+console "docker-compose run playground"
+fuzzy_result <<-CONTENTS
+root@{FUZZY}cbbc5ebda5b6{/FUZZY}:/app#
+CONTENTS
+
+message <<-MARKDOWN
+Now you're able to:
+
+* Run `irb`
+* Run `ruby my_program.rb` -- any file that is in the same folder as your
+  `docker-compose.yml` is available
+MARKDOWN
+end

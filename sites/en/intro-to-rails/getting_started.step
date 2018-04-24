@@ -41,15 +41,74 @@ steps do
   end
 
   step do
-    console "rails new suggestotron"
-    message "`rails new` creates a new Rails project with the name you give."
-    message "In this case we told it to create a new project called `suggestotron`. We'll go into detail on what it created shortly."
-    message "This will print a lot of stuff to the screen and can take a while to finish."
-  end
+    message "Create the new Rails app:"
 
-  step do
-    console "cd suggestotron"
-    message "`cd suggestotron` makes suggestotron our current directory."
+    option_half "Without Docker" do
+      console "rails new suggestotron"
+      message "`rails new` creates a new Rails project with the name you give."
+      message "In this case we told it to create a new project called `suggestotron`. We'll go into detail on what it created shortly."
+      message "This will print a lot of stuff to the screen and can take a while to finish."
+      console "cd suggestotron"
+      message "`cd suggestotron` makes suggestotron our current directory."
+    end
+
+    option_half "With Docker" do
+      console "mkdir suggestotron"
+      console "cd suggestotron"
+
+      message "Copy this into the file `Gemfile`:"
+
+      source_code :ruby, <<-CONTENTS
+        source "https://rubygems.org"
+        gem "rails", "5.1.4"
+      CONTENTS
+
+      console "touch Gemfile.lock"
+
+      message "Copy this into the file `Dockerfile`:"
+
+      source_code :text, <<-CONTENTS
+        FROM ruby:2.5.0-slim
+
+        RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs postgresql-client libsqlite3-dev build-essential
+
+        ENV APP_HOME /suggestotron
+
+        RUN mkdir -p $APP_HOME
+        WORKDIR $APP_HOME
+        COPY Gemfile* $APP_HOME/
+        RUN bundle install --binstubs
+        COPY . /suggestotron
+      CONTENTS
+
+      message "Copy this into the file `docker-compose.yml`:"
+
+      source_code :text, <<-CONTENTS
+        version: '3'
+        services:
+          db:
+            image: postgres:10.2
+          web:
+            build: .
+            tty: true
+            stdin_open: true
+            volumes:
+              - .:/app
+            command: bin/rails s -p 3000 -b '0.0.0.0'
+            ports:
+              - "3000:3000"
+            depends_on:
+              - db
+      CONTENTS
+
+      message "Whew! Now that that set up is in place, we can run:"
+
+      console "docker-compose run web rails new . --force"
+      console "docker-compose build"
+
+      message "If you're using Linux, run the following, which will prompt you for your password:"
+      console "sudo chown -R $USER:USER ."
+    end
   end
 
   step do
@@ -71,7 +130,7 @@ Select your `suggestotron` folder from the file picker that opens. If everything
   end
 
   message <<-MARKDOWN
-  You can see that <code>rails new</code> created a lot directories and
+  You can see that <code>rails new</code> created a lot of directories and
   files. The ones we want to focus on today are:
   MARKDOWN
 
