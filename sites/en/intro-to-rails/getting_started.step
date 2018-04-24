@@ -59,8 +59,8 @@ steps do
       message "Copy this into the file `Gemfile`:"
 
       source_code :ruby, <<-CONTENTS
-				source "https://rubygems.org"
-				gem "rails", "5.1.4"
+        source "https://rubygems.org"
+        gem "rails", "5.1.4"
       CONTENTS
 
       console "touch Gemfile.lock"
@@ -68,23 +68,26 @@ steps do
       message "Copy this into the file `Dockerfile`:"
 
       source_code :text, <<-CONTENTS
-				FROM ruby:2.5.0-slim
+        FROM ruby:2.5.0-slim
 
-				RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs postgresql-client libsqlite3-dev build-essential
+        RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs postgresql-client libsqlite3-dev build-essential
 
-				RUN mkdir /app
-				WORKDIR /app
-				COPY Gemfile /app/Gemfile
-				COPY Gemfile.lock /app/Gemfile.lock
-				RUN bundle install
-				COPY . /app
+        ENV APP_HOME /suggestotron
+
+        RUN mkdir -p $APP_HOME
+        WORKDIR $APP_HOME
+        COPY Gemfile* $APP_HOME/
+        RUN bundle install --binstubs
+        COPY . /suggestotron
       CONTENTS
 
-			message "Copy this into the file `docker-compose.yml`:"
+      message "Copy this into the file `docker-compose.yml`:"
 
-			source_code :text, <<-CONTENTS
+      source_code :text, <<-CONTENTS
         version: '3'
         services:
+          db:
+            image: postgres:10.2
           web:
             build: .
             tty: true
@@ -94,6 +97,8 @@ steps do
             command: bin/rails s -p 3000 -b '0.0.0.0'
             ports:
               - "3000:3000"
+            depends_on:
+              - db
       CONTENTS
 
       message "Whew! Now that that set up is in place, we can run:"
