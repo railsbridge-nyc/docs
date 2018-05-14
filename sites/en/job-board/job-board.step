@@ -30,7 +30,7 @@ message <<-MARKDOWN
   * `docker-compose run web <<commands>>`, runs commands in web service container
   E.g.,
   ```
-  $ docker-compose run web bin/rails c
+  $ docker-compose run web rails c
   ```
   * `docker-compose run web bash`, runs bash to interact with the directory inside the web service container
   * `docker-compose build`, build image when `Dockerfile` changes or when you want

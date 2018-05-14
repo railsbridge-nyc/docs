@@ -35,7 +35,7 @@ step "Create a new Rails app" do
     RUN mkdir -p $APP_HOME
     WORKDIR $APP_HOME
     COPY Gemfile* $APP_HOME/
-    RUN bundle install --binstubs
+    RUN bundle install
     COPY . $APP_HOME
   CONTENTS
 
@@ -91,8 +91,8 @@ step "Create a new Rails app" do
       database: test_app_production
       password: <%= ENV['APP_DATABASE_PASSWORD'] %>
   CONTENTS
-  console "docker-compose run web bin/rails db:create"
-  console "docker-compose run web bin/rails db:migrate"
+  console "docker-compose run web rails db:create"
+  console "docker-compose run web rails db:migrate"
 
   console "docker-compose up"
   tip "`docker-compose up` will execute the command, `bin/rails s -p 3000 -b '0.0.0.0'`, in `docker-compose.yml`"

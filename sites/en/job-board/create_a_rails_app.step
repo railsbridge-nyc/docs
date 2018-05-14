@@ -55,7 +55,7 @@ option "With Docker" do
     RUN mkdir -p $APP_HOME
     WORKDIR $APP_HOME
     COPY Gemfile* $APP_HOME/
-    RUN bundle install --binstubs
+    RUN bundle install
     COPY . $APP_HOME
   CONTENTS
 
@@ -111,7 +111,7 @@ option "With Docker" do
       database: job_board_production
       password: <%= ENV['APP_DATABASE_PASSWORD'] %>
   CONTENTS
-  console "docker-compose run web bin/rails db:create"
+  console "docker-compose run web rails db:create"
 end
 
 message <<-MARKDOWN
