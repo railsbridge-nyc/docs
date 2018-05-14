@@ -34,6 +34,7 @@ Rails.application.routes.draw do
 }
 
 explanation {
+  tip "Docker users will need to run `docker-compose run web bash` first, where they can then run Rails related commands."
 
  message <<-MARKDOWN
   * `root 'topics#index'` is a Rails route that says the default
