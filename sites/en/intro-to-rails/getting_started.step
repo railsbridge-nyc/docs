@@ -43,6 +43,8 @@ steps do
   step do
     option "Without Docker" do
       console "rails new suggestotron"
+      message "`rails new` creates a new Rails project with the name you give. In this case we told it to create a new project called `suggestotron`. We'll go into detail on what it created shortly."
+      message "This will print a lot of stuff to the screen and can take a while to finish."
       console "cd suggestotron"
       message "`cd suggestotron` makes suggestotron our current directory."
     end
@@ -99,6 +101,7 @@ steps do
       CONTENTS
       message "Build your rails app:"
       console "docker-compose run web rails new . --force --database=postgresql"
+      message "The `rails new` command creates a Rails project with the name you give. In this case we used `.` which is a shorthand for the current directory which happens to be `suggestotron`. We'll go into detail on what it created shortly. This and the following steps will all print a lot of stuff to the screen and might take a while to finish."
       console "docker-compose build"
       message "Setup the database:"
       message "In your editor, open up `config/database.yml` and change it to the following:"
@@ -124,10 +127,6 @@ steps do
       console "docker-compose run web bin/rails db:create"
       console "docker-compose run web bin/rails db:migrate"
     end
-
-    message "`rails new` creates a new Rails project with the name you give."
-    message "In this case we told it to create a new project called `suggestotron`. We'll go into detail on what it created shortly."
-    message "This will print a lot of stuff to the screen and can take a while to finish."
   end
 
   step do
