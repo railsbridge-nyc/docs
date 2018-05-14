@@ -32,9 +32,6 @@ will be ignored."
       message "To get back to the terminal, you can stop the server by typing in a new terminal tab `docker-compose down`. Make sure you're still in `suggestotron` directory."
     end
   end
-  result <<-STOPPING_RAILS_SERVER
-    ^CExiting
-  STOPPING_RAILS_SERVER
 end
 
 explanation do
