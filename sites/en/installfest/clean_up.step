@@ -22,5 +22,5 @@ step "Delete the test_app from your computer" do
 end
 
 step "Delete the test_app Docker image from your computer" do
-  console "docker rmi testapp_web"
+  console "docker rmi test_app_web"
 end
