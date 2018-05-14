@@ -55,8 +55,6 @@ option "Without Docker" do
     $ irb
     >> 1 + 2
     => 3
-    >> require "active_support"
-    => true
     >> exit
     $
   BASH
@@ -67,8 +65,6 @@ option "With Docker" do
     $ docker run -it --rm ruby:2.5.1-slim
     >> 1 + 2
     => 3
-    >> require "active_support"
-    => true
     >> exit
     $
   BASH
