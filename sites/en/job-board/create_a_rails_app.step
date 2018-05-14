@@ -157,7 +157,7 @@ tip "Now is a good time to figure out how to have multiple tabs or windows of yo
 
 message "Start the Rails server by running this command in the terminal:"
 option "Without Docker" do
-  console "rails server -b 0.0.0.0"
+  console "rails server"
 end
 option "With Docker" do
   console "docker-compose up"
