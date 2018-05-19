@@ -51,7 +51,7 @@ step "Create a new Rails app" do
       web:
         build: .
         environment:
-          DB_HOST: db
+          DATABASE_URL: db
         tty: true
         stdin_open: true
         volumes:
@@ -79,7 +79,7 @@ step "Create a new Rails app" do
       username: postgres
       password:
       pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-      host: <%= ENV.fetch("DB_HOST") %>
+      host: <%= ENV.fetch("DATABASE_URL") %>
     development:
       <<: *default
       database: test_app_development

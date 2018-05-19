@@ -71,7 +71,7 @@ option "With Docker" do
       web:
         build: .
         environment:
-          DB_HOST: db
+          DATABASE_URL: db
         tty: true
         stdin_open: true
         volumes:
@@ -99,7 +99,7 @@ option "With Docker" do
       username: postgres
       password:
       pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-      host: <%= ENV.fetch("DB_HOST") %>
+      host: <%= ENV.fetch("DATABASE_URL") %>
     development:
       <<: *default
       database: job_board_development
