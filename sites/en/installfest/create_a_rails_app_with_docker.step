@@ -56,7 +56,7 @@ step "Create a new Rails app" do
         stdin_open: true
         volumes:
           - .:/test_app
-        command: bin/rails s -p 3000 -b '0.0.0.0'
+        command: bash -c 'rm -rf /test_app/tmp/pids/server.pid && bin/rails s -p 3000 -b 0.0.0.0'
         ports:
           - "3000:3000"
         depends_on:
@@ -64,6 +64,18 @@ step "Create a new Rails app" do
     volumes:
       db_data:
         driver: local
+  CONTENTS
+
+  message "In your editor, create a new file called `.dockerignore`:"
+  message "Copy the following into `.dockerignore`:"
+  source_code :text, <<-CONTENTS
+    .git
+    .dockerignore
+    .byebug_history
+    log/*
+    tmp/*
+    Dockerfile
+    README.md
   CONTENTS
 
   message "Build your rails app:"

@@ -73,6 +73,7 @@ steps do
         RUN bundle install
         COPY . $APP_HOME
       CONTENTS
+
       message "In your editor, create a new file called `docker-compose.yml`:"
       message "Copy the following into `docker-compose.yml`:"
       source_code :text, <<-CONTENTS
@@ -90,7 +91,7 @@ steps do
             stdin_open: true
             volumes:
               - .:/suggestotron
-            command: bin/rails s -p 3000 -b '0.0.0.0'
+            command: bash -c 'rm -rf /suggestotron/tmp/pids/server.pid && bin/rails s -p 3000 -b 0.0.0.0'
             ports:
               - "3000:3000"
             depends_on:
@@ -99,10 +100,24 @@ steps do
           db_data:
             driver: local
       CONTENTS
+
+      message "In your editor, create a new file called `.dockerignore`:"
+      message "Copy the following into `.dockerignore`:"
+      source_code :text, <<-CONTENTS
+        .git
+        .dockerignore
+        .byebug_history
+        log/*
+        tmp/*
+        Dockerfile
+        README.md
+      CONTENTS
+
       message "Build your rails app:"
       console "docker-compose run web rails new . --force --database=postgresql"
       message "The `rails new` command creates a Rails project with the name you give. In this case we used `.` which is a shorthand for the current directory which happens to be `suggestotron`. We'll go into detail on what it created shortly. This and the following steps will all print a lot of stuff to the screen and might take a while to finish."
       console "docker-compose build"
+
       message "Setup the database:"
       message "In your editor, open up `config/database.yml` and change it to the following:"
       source_code :ruby, <<-CONTENTS
