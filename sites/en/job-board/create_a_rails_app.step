@@ -76,7 +76,7 @@ option "With Docker" do
         stdin_open: true
         volumes:
           - .:/job_board
-        command: bin/rails s -p 3000 -b '0.0.0.0'
+        command: bash -c 'rm -rf /job_board/tmp/pids/server.pid && bin/rails s -p 3000 -b 0.0.0.0'
         ports:
           - "3000:3000"
         depends_on:
@@ -84,6 +84,18 @@ option "With Docker" do
     volumes:
       db_data:
         driver: local
+  CONTENTS
+
+  message "In your editor, create a new file called `.dockerignore`:"
+  message "Copy the following into `.dockerignore`:"
+  source_code :text, <<-CONTENTS
+    .git
+    .dockerignore
+    .byebug_history
+    log/*
+    tmp/*
+    Dockerfile
+    README.md
   CONTENTS
 
   message "Build your rails app:"
